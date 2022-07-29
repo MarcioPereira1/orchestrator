@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32112.339
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "api_orchestrator", "api_orchestrator\api_orchestrator.csproj", "{10EA9AE3-7318-4427-974E-BBCCAA194C9E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{10EA9AE3-7318-4427-974E-BBCCAA194C9E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10EA9AE3-7318-4427-974E-BBCCAA194C9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10EA9AE3-7318-4427-974E-BBCCAA194C9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10EA9AE3-7318-4427-974E-BBCCAA194C9E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6DAA79DB-D08E-40D2-AEE2-A8547EAE4461}
+	EndGlobalSection
+EndGlobal
