@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json.Linq;
 using Microsoft.Identity.Web;
+using System.Runtime.Serialization.Json;
 
 namespace api_orchestrator
 {
@@ -21,63 +22,28 @@ namespace api_orchestrator
     {
         public string urlAPI = "";
         public string caminhoDiretorio = "";
-        public string[] linhasArquivo = new string[2]; 
+        public string[] linhasArquivo = new string[2];
+        public object jsonFile;
+        public string file;
 
-        public Orchestrator(string caminhoDiretorio)
+        public Orchestrator()
         {
-            this.LerArquivo(caminhoDiretorio);
+            this.file = File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + @"config.json");
+            this.jsonFile = JsonConvert.DeserializeObject(file);          
         }
 
         public string Token { get; set; }
-
-        public void LerArquivo(string arquivo)
-        {
-            this.linhasArquivo = File.ReadAllLines(arquivo);
-
-            for(int i = 0; i < this.linhasArquivo.Length -1; i++)
-            {
-                this.urlAPI = this.linhasArquivo[0];
-                this.caminhoDiretorio = this.linhasArquivo[1];
-            }
-        }
-
-        public void GetToken(object body)
-        {
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri(this.urlAPI);
-                var serializedInfo = JsonConvert.SerializeObject(body);
-                var content = new StringContent(serializedInfo, Encoding.UTF8, "application/json");
-                var response = client.PostAsync($"{client.BaseAddress}user/authenticate", content).Result;
-
-                if (response.IsSuccessStatusCode)
-                {
-                    var token = response.Content.ReadAsStringAsync();
-                    token.Wait();
-                    Token = JsonConvert.DeserializeObject(token.Result).ToString();
-                }
-                else
-                {
-                    throw new Exception(response.StatusCode + ": " + response.Content);
-                }
-            }
-        }
 
         public async Task Get(string? bearer, string rota)
         {
             using (var client = new HttpClient())
             {
-                //this.GetToken(body);
+                
                 try
                 {
-                    client.BaseAddress = new Uri(this.urlAPI);
+                    dynamic json = this.jsonFile;
+                    client.BaseAddress = new Uri(json.urlApi.ToString());
                     client.DefaultRequestHeaders.Accept.Clear();
-
-                    if(String.IsNullOrEmpty(bearer))
-                    {
-                        throw new Exception("Bearer token missing");
-                    }
-
                     client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", bearer);
 
                     var response = await client.GetAsync($"{client.BaseAddress}{rota}");
@@ -105,14 +71,9 @@ namespace api_orchestrator
             {
                 try
                 {
-                    client.BaseAddress = new Uri(this.urlAPI);
+                    dynamic json = this.jsonFile;
+                    client.BaseAddress = new Uri(json.urlApi.ToString());
                     client.DefaultRequestHeaders.Accept.Clear();
-
-                    if (String.IsNullOrEmpty(bearer))
-                    {
-                        throw new Exception("Bearer token missing");
-                    }
-
                     client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", bearer);
 
                     var serializedInfo = JsonConvert.SerializeObject(body);
@@ -141,21 +102,16 @@ namespace api_orchestrator
             {
                 try
                 {
-                    client.BaseAddress = new Uri(this.urlAPI);
+                    dynamic json = this.jsonFile;
+                    client.BaseAddress = new Uri(json.urlApi.ToString());
                     client.DefaultRequestHeaders.Accept.Clear();
-
-                    if (String.IsNullOrEmpty(bearer))
-                    {
-                        throw new Exception("Bearer token missing");
-                    }
-
                     client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", bearer);
 
                     HttpResponseMessage response;
                     StringContent content;
                     string serializedInfo = "";
 
-                    if (body == null || body == "")
+                    if (body == null || body == String.Empty)
                     {
                         serializedInfo = JsonConvert.SerializeObject(body);
                         body = new StringContent(serializedInfo, Encoding.UTF8, "application/json");
@@ -191,14 +147,9 @@ namespace api_orchestrator
             {
                 try
                 {
-                    client.BaseAddress = new Uri(this.urlAPI);
+                    dynamic json = this.jsonFile;
+                    client.BaseAddress = new Uri(json.urlApi.ToString());
                     client.DefaultRequestHeaders.Accept.Clear();
-
-                    if (String.IsNullOrEmpty(bearer))
-                    {
-                        throw new Exception("Bearer token missing");
-                    }
-
                     client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", bearer);
     
                     var response = await client.DeleteAsync($"{client.BaseAddress}{rota}");

@@ -1,0 +1,21 @@
+﻿
+
+// ARQUIVO DE CONFIGURAÇÃO
+
+Na pasta "bin\Debug\net6.0\" do projeto, deverá ter um arquivo do tipo JSON com o nome "config.json". 
+Nele, deverá conter as chaves "urlApi" e "path", onde na urlApi deve conter a URL da API que será consumida
+e o path será o diretório...
+
+Exemplo de arquivo JSON:
+
+{
+  "numero": 1,
+  "urlApi": "http://localhost:3000",
+  "path": "C:\\Users\\fiska\\OneDrive\\�rea de Trabalho",
+  "autor": "Márcio Lucas",
+  "endereco": {
+    "rua": "Rua exemplo",
+    "bairro": "exemplo",
+    "numero": 123,
+  }
+}
